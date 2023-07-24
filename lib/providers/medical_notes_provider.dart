@@ -42,28 +42,40 @@ class TodosProvider extends ChangeNotifier {
       },
       body: jsonEncode(<String, String>{
         'title': todo.title,
-        'content': todo.description,
+        'content': todo.content,
         'iscomplete': todo.isDone.toString(),
         'accountID': accountID,
       }),
     );
-
+    print('POST request to ${_getUrl('notes/create/')}');
+    print('Headers: ${jsonEncode(<String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        })}');
+    print('Body: ${jsonEncode(<String, dynamic>{
+          'title': todo.title,
+          'content': todo.content,
+          'iscomplete': todo.isDone,
+          'account': accountID,
+        })}');
+    print('Response status code: ${response.statusCode}');
+    print('Response body: ${response.body}');
     if (response.statusCode == 201) {
       fetchTodos(accountID);
     } else {
-      throw Exception('Failed to add todo');
+      throw Exception(
+          'Failed to add todo. Server responded with status code ${response.statusCode}');
     }
   }
 
   Future updateTodo(Todo todo, String accountID) async {
     final response = await http.put(
-      Uri.parse(_getUrl('notes/update/int:noteNum')),
+      Uri.parse(_getUrl('notes/update/${todo.noteNum}')),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
         'title': todo.title,
-        'content': todo.description,
+        'content': todo.content,
         'iscomplete': todo.isDone.toString(),
       }),
     );
@@ -77,7 +89,7 @@ class TodosProvider extends ChangeNotifier {
 
   Future toggleTodoStatus(Todo todo, String accountID) async {
     final response = await http.put(
-      Uri.parse(_getUrl('notes/update/int:noteNum')),
+      Uri.parse(_getUrl('notes/update/${todo.noteNum}')),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

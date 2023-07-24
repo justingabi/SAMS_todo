@@ -63,11 +63,10 @@ class _AddTodoPageState extends State<AddTodoPage> {
       return;
     } else {
       final todo = Todo(
-          createdTime: DateTime.now(),
           title: title,
-          description: description,
-          id: DateTime.now().toIso8601String(),
-          accountID: '');
+          content: description,
+          noteNum: DateTime.now().toIso8601String(),
+          account: '');
 
       final provider = Provider.of<TodosProvider>(context, listen: false);
       provider.addTodo(

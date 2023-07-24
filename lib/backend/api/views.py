@@ -76,17 +76,23 @@ class PersonalNotesView(viewsets.ModelViewSet):
     @api_view(['POST']) 
     def create_personal_note(request):
         try:
-            notes_data = json.loads(request.body)
-            account_id = notes_data['account']
-            account = Account.objects.get(accountID = account_id)
+            notes_data = request.data
+            account = Account.objects.get(userId = notes_data['account'])
             note = Personal_Note.objects.create(
                 title = notes_data['title'],
                 content = notes_data['content'],
                 account = account
-            )
+                )
             return Response({"message": "Note successfully created"}, status=status.HTTP_201_CREATED)
         except Exception as e:
-            return Response({"message": "Failed to create note"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({
+                "message": "Failed to create note",
+                "details": str(e),
+                }, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            print(str(e))
+            return Response(...)
+
 
     @api_view(['PUT'])
     def update_personal_note(request, noteNum):

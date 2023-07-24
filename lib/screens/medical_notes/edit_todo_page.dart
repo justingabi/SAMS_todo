@@ -22,7 +22,7 @@ class _EditTodoPageState extends State<EditTodoPage> {
   void initState() {
     super.initState();
     title = widget.todo.title;
-    description = widget.todo.description;
+    description = widget.todo.content;
   }
 
   void saveTodo() {
@@ -34,12 +34,11 @@ class _EditTodoPageState extends State<EditTodoPage> {
       final provider = Provider.of<TodosProvider>(context, listen: false);
       provider.updateTodo(
           Todo(
-            id: widget.todo.id,
+            noteNum: widget.todo.noteNum,
             title: title,
-            description: description,
-            createdTime: widget.todo.createdTime,
+            content: description,
             isDone: widget.todo.isDone,
-            accountID: '',
+            account: '',
           ),
           'accountID'); // Replace 'accountID' with actual account ID
       Navigator.of(context).pop();

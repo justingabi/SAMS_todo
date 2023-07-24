@@ -39,7 +39,7 @@ class TodoWidget extends StatelessWidget {
             ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: Slidable(
-            key: Key(todo.id),
+            key: Key(todo.noteNum),
             endActionPane: ActionPane(
               motion: const ScrollMotion(),
               dismissible: DismissiblePane(onDismissed: () {}),
@@ -124,11 +124,11 @@ class TodoWidget extends StatelessWidget {
                             ),
                           ],
                         ),
-                        if (todo.description.isNotEmpty)
+                        if (todo.content.isNotEmpty)
                           Container(
                             margin: const EdgeInsets.only(top: 4),
                             child: Text(
-                              todo.description,
+                              todo.content,
                               style: const TextStyle(
                                 fontSize: 10,
                                 height: 1.5,

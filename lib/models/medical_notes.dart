@@ -1,27 +1,34 @@
 class Todo {
-  DateTime createdTime;
+  String noteNum;
   String title;
-  String id;
-  String description;
+  String content;
+  String account;
   bool isDone;
-  String accountID; // new field
 
-  Todo(
-      {required this.createdTime,
-      required this.title,
-      this.description = '',
-      this.id = '',
-      this.isDone = false,
-      required this.accountID}); // updated constructor
+  Todo({
+    required this.noteNum,
+    required this.title,
+    required this.content,
+    required this.account,
+    this.isDone = false,
+  });
 
   factory Todo.fromJson(Map<String, dynamic> json) {
     return Todo(
-      createdTime: DateTime.parse(json['createdTime']),
+      noteNum: json['noteNum'],
       title: json['title'],
-      description: json['content'],
+      content: json['content'],
       isDone: json['iscomplete'],
-      id: json['noteNum'].toString(),
-      accountID: json['accountID'], // new field
+      account: json['account'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'noteNum': noteNum,
+      'title': title,
+      'content': content,
+      'account': account,
+    };
   }
 }
